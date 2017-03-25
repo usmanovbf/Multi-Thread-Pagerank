@@ -2,6 +2,7 @@ package com.github.usmanovbf;
 
 public class WebPage {
     private String url;
+    private double transitionProbability;
 
     public WebPage(String url) {
 
@@ -14,5 +15,13 @@ public class WebPage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public double getTransitionProbability() {
+        return transitionProbability;
+    }
+
+    public void setTransitionProbability( double transitionProbability ) {
+        this.transitionProbability = transitionProbability;
     }
 }

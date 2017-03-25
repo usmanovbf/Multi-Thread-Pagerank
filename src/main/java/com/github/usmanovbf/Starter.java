@@ -17,62 +17,63 @@ import java.util.logging.Logger;
 public class Starter {
 
 
-    private static final int MAX_PAGES_TO_FETCH = 50;
-    private static Logger logger = Logger.getLogger(Starter.class.getName());
+    private static final int MAX_PAGES_TO_FETCH = 150;
+    private static Logger logger = Logger.getLogger( Starter.class.getName() );
 
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         Options options = new Options();
-        options.addOption(CliOptions.HOST.getShortOpt(), CliOptions.HOST.getLongOpt(), true, "host to crawl");
+        options.addOption( CliOptions.HOST.getShortOpt(), CliOptions.HOST.getLongOpt(), true, "host to crawl" );
         CommandLineParser parser = new PosixParser();
         CommandLine cmd = null;
 
         try {
-            cmd = parser.parse(options, args);
+            cmd = parser.parse( options, args );
         } catch (ParseException e) {
-            logger.log(Level.SEVERE, "Error while parsing " + CommandLineParser.class.getName(), e);
+            logger.log( Level.SEVERE, "Error while parsing " + CommandLineParser.class.getName(), e );
 
         }
 
-        if (cmd.hasOption(CliOptions.HOST.getShortOpt())) {
+        if (cmd.hasOption( CliOptions.HOST.getShortOpt() )) {
             String crawlStorageFolder = "data";
-            int numberOfCrawlers = 100;
+            int numberOfCrawlers = 10;
 
             CrawlConfig config = new CrawlConfig();
-            config.setCrawlStorageFolder(crawlStorageFolder);
-            config.setResumableCrawling(false);
-            config.setMaxPagesToFetch(MAX_PAGES_TO_FETCH);
+            config.setCrawlStorageFolder( crawlStorageFolder );
+            config.setResumableCrawling( false );
+            config.setMaxPagesToFetch( MAX_PAGES_TO_FETCH );
 
 
         /*
          * Instantiate the controller for this crawl.
          */
-            PageFetcher pageFetcher = new PageFetcher(config);
+            PageFetcher pageFetcher = new PageFetcher( config );
             RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-            RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+            RobotstxtServer robotstxtServer = new RobotstxtServer( robotstxtConfig, pageFetcher );
             CrawlController controller = null;
             try {
-                controller = new CrawlController(config, pageFetcher, robotstxtServer);
+                controller = new CrawlController( config, pageFetcher, robotstxtServer );
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Error while initialising " + CrawlController.class.getName(), e);
+                logger.log( Level.SEVERE, "Error while initialising " + CrawlController.class.getName(), e );
             }
 
-            controller.addSeed(cmd.getOptionValue(CliOptions.HOST.shortOpt));
-            controller.setCustomData(new WebSite());
-            controller.start(Crawler.class, numberOfCrawlers);
+            controller.addSeed( cmd.getOptionValue( CliOptions.HOST.shortOpt ) );
+            controller.setCustomData( new WebSite() );
+            controller.start( Crawler.class, numberOfCrawlers );
             controller.getFrontier().getNumberOfProcessedPages();
             WebSite webSite = (WebSite) controller.getCustomData();
             System.out.println();
         } else
-            logger.log(Level.SEVERE, "Not specified necessary option " + CliOptions.HOST);
+            logger.log( Level.SEVERE, "Not specified necessary option " + CliOptions.HOST );
     }
 
+
     private enum CliOptions {
-        HOST("h", "host");
+        HOST( "h", "host" );
 
         private final String shortOpt;
         private final String longOpt;
 
-        CliOptions(String shortOpt, String longOpt) {
+        CliOptions( String shortOpt, String longOpt ) {
             this.shortOpt = shortOpt;
             this.longOpt = longOpt;
         }
