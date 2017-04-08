@@ -27,4 +27,4 @@ web-страниц. (15 баллов). Рекомендуемый размер �
 многопоточность. Измерить ускорение.
 (15 баллов)
 
-```java -jar app/multi-thread-pagerank-1.0.jar http://seclub.org/  crawlerthreads=3 pagesnumber=10 sparsedmatrix calculatorthreads=5```
+```java -jar app/multi-thread-pagerank-1.0.jar http://seclub.org/  crawlerthreads=3 pagesnumber=10  calculatorthreads=5```
